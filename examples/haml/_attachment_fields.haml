@@ -1,0 +1,18 @@
+%fieldset#attachments
+  %legend Relevant images or documents
+  %ol
+    %li
+      = f.simple_fields_for :attachments do |attachment|
+        - if attachment.object.persisted?
+          %ol.attachment.existing
+            %li
+              = attachment_tag(attachment.object) if attachment.object.file?
+              = attachment.input :id, :as => :hidden
+            %li.input.boolean.destroy
+              = attachment.check_box :_destroy
+              = attachment.label :_destroy, 'Remove attachment'
+        - else
+          %ol.attachment.blueprints
+            = attachment.input :file, :as => :file
+            = attachment.input :title, :label => 'Name of document (optional)'
+

@@ -1,0 +1,11 @@
+- # Using simple_form in this case but it is not a must
+= simple_form_for @question, :html => { :multipart => true } do |f|
+  %fieldset
+    %ol
+      = f.input :text, :label => 'Question description'
+
+  = render 'attachment_fields', :f => f
+
+  %fieldset
+    %ol
+      = f.button :submit

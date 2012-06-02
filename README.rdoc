@@ -1,0 +1,83 @@
+= Nester jQuery Plugin wrapped as a Rails3 Gem
+
+Take a form with nested attributes and add the ability to manage multiple nested models.
+
+If javascript is disabled, the form will only allow you to add one nested model at a time. So, it will still work, just not as user-friendly as with js enabled.
+
+The script will add a 'add model' link for new nested models as well a 'remove model' link for existing nested models.
+
+You can check out /examples/html/index.html for an example.
+
+
+== Dependencies
+
+- jQuery
+
+
+
+== Setup
+
+Add this line to your application's Gemfile:
+
+    gem 'nester'
+
+And then execute:
+
+    $ bundle
+
+And then add it to the Asset Pipeline in the application.js file:
+
+  //= require jquery.nester
+
+
+
+== Usage
+
+1. Basic Markup:
+
+Look at examples for suggested markup in both html and haml
+
+=== Things to pay attention to:
+
+fieldset with id of association in plural (i.e. #attachments, #answers)
+
+  %fieldset#attachments
+
+each record's fields are within an ol with :class => .association (i.e. .attachment, .answer)
+
+  %ol.attachment.existing
+
+one of these ol's has a :class => .blueprints, which is used to duplicate the required form fields
+
+  %ol.attachment.blueprints
+
+li with :class => .destroy class for existing records with a _destroy checkbox
+
+  %li.destroy
+
+
+2. Initialise the class with the form object and the association as a singular string
+
+  $('form').nester({association: 'attachment'})
+
+
+
+== TODO
+
+- Fix doubling of undo link when multiple nested models (click on 'Remove attachment' in /examples/html/index.html)
+- Simplify markup and loosen reliance on specific markup
+- Add an option to set class names when invoking the plugin
+
+
+
+== Inspiration and Alternatives:
+
+- https://github.com/nathanvda/cocoon
+- https://github.com/ryanb/nested_form
+
+
+
+== Thanks
+
+- Gabe Hollombe
+
