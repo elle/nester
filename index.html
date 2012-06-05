@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Nester&#8212;a jQuery plugin to handle multiple nested models</title>
+    <link rel="stylesheet" media="all" href="styles.css">
+    <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' type='text/javascript' ></script>
+    <script src='jquery.nester.js' type='text/javascript' ></script>
+    <script src='http://coffeescript.org/extras/coffee-script.js' type='text/javascript' ></script>
+    <script type='text/coffeescript' >
+$ ->
+  $('form#new_question').nester({association: 'attachment'})
+  $('form#new_question').nester({association: 'answer'})
+    </script>
+
+  </head>
+
+  <body>
+    <div id='content'>
+      <h1>Nester&#8212;a jQuery plugin to handle multiple nested models</h1>
+
+      <!--  This is an example of form markup that was created with the help of simple_form -->
+
+      <h2>New question</h2>
+      <form action="#" class="simple_form question" enctype="multipart/form-data" id="new_question" method="post">
+        <fieldset>
+          <ol>
+            <li class="input text">
+              <label class="text" for="question_text">Question description</label>
+              <textarea class="text" id="question_text" name="question[text]" cols="40" rows="15"></textarea>
+            </li>
+          </ol>
+        </fieldset>
+
+        <!-- attachments example -->
+        <fieldset id="attachments">
+          <legend>Relevant images or documents</legend>
+          <ol>
+            <li>
+              <ol class="attachment existing">
+                <li>
+                  <img alt="rails" src="rails.png" />
+                  <input class="hidden" id="question_attachments_attributes_0_id" name="question[attachments_attributes][0][id]" type="hidden" value="3">
+                </li>
+                <li class="input boolean destroy">
+                  <input name="question[attachments_attributes][0][_destroy]" type="hidden" value="0"><input id="question_attachments_attributes_0__destroy" name="question[attachments_attributes][0][_destroy]" type="checkbox" value="1">
+                  <label for="question_attachments_attributes_0__destroy">Remove attachment</label>
+                </li>
+              </ol><!-- / .existing -->
+            </li>
+            <li>
+              <ol class="attachment blueprints">
+                <li class="input file">
+                  <label class="file optional" for="question_attachments_attributes_1_file">File </label><input class="file" id="question_attachments_attributes_1_file" name="question[attachments_attributes][1][file]" type="file"></li>
+                <li class="input string">
+                  <label class="string" for="question_attachments_attributes_1_title">Name of document (optional) </label>
+                  <input class="string optional" id="question_attachments_attributes_1_title" name="question[attachments_attributes][1][title]" type="text"></li>
+              </ol><!-- blueprints -->
+            </li>
+          </ol>
+        </fieldset><!-- / #attachments -->
+
+        <!-- another example -->
+        <fieldset id="answers">
+          <legend>Add answers</legend>
+          <ol>
+            <li>
+              <ol class="answer blueprints">
+                <li class="input string">
+                  <label class="string" for="question_answers_attributes_0_text">Answer text </label>
+                  <input class="string" id="question_answers_attributes_0_text" name="question[answers_attributes][0][text]" type="text">
+                </li>
+                <li class="input boolean">
+                  <input name="question[answers_attributes][0][correct]" type="hidden" value="0">
+                  <input class="boolean" id="question_answers_attributes_0_correct" name="question[answers_attributes][0][correct]" type="checkbox" value="1">
+                  <label class="boolean" for="question_answers_attributes_0_correct">Correct </label>
+                </li>
+              </ol><!-- / .blueprints -->
+            </li>
+          </ol>
+        </fieldset><!-- / #answers -->
+
+        <fieldset>
+          <ol>
+            <li class="actions"><input class="button" name="commit" type="submit" value="Create question"></li>
+          </ol>
+        </fieldset>
+      </form>
+    </div>
+  </body>
+</html>
