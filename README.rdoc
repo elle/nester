@@ -6,7 +6,7 @@ If javascript is disabled, the form will only allow you to add one nested model 
 
 The script will add a 'add model' link for new nested models as well a 'remove model' link for existing nested models.
 
-You can check out /examples/html/index.html for an example.
+You can check out http://elle.github.com/nester/ (also lives at /examples/html/index.html) for an example.
 
 
 == Dependencies
