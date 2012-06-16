@@ -15,9 +15,9 @@
       this.clickUndo();
     }
     Nester.prototype.addLinks = function() {
-      this.fieldset.prepend("<p><a class='btn add_" + this.association + "' href='#'><i class='icon-plus-sign'></i> Add " + this.association + "</a></p>");
+      this.fieldset.prepend("<p><a class='btn add_" + this.association + "' href='#" + this.association + "s'><i class='icon-plus-sign'></i> Add " + this.association + "</a></p>");
       this.form.find('li.destroy').hide();
-      return this.fieldset.find('ol.existing li.destroy').after("<li><a href='#' class='remove_existing btn btn-danger'>Remove " + this.association + "</a></li>");
+      return this.fieldset.find('ol.existing li.destroy').after("<li><a href='#" + this.association + "s' class='remove_existing_" + this.association + " btn btn-danger'>Remove " + this.association + "</a></li>");
     };
     Nester.prototype.clickAdd = function() {
       return this.form.find("a.add_" + this.association).on('click', __bind(function(e) {
@@ -43,6 +43,7 @@
     Nester.prototype.clickRemoveNew = function() {
       return this.form.find('a.remove_new').live('click', __bind(function(e) {
         var link;
+        e.preventDefault();
         link = e.srcElement || e.target;
         $(link).parent().parent().slideUp(function() {
           return $(this).remove();
@@ -51,7 +52,7 @@
       }, this));
     };
     Nester.prototype.clickRemoveExisting = function() {
-      return this.form.find('a.remove_existing').on('click', __bind(function(e) {
+      return this.form.find("a.remove_existing_" + this.association).on('click', __bind(function(e) {
         var link, ol;
         e.preventDefault();
         link = e.srcElement || e.target;

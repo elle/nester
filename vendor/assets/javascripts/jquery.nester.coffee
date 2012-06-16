@@ -15,10 +15,10 @@ class Nester
 
 
   addLinks: ->
-    @fieldset.prepend "<p><a class='btn add_#{@association}' href='#'><i class='icon-plus-sign'></i> Add #{@association}</a></p>"
+    @fieldset.prepend "<p><a class='btn add_#{@association}' href='##{@association}s'><i class='icon-plus-sign'></i> Add #{@association}</a></p>"
     @form.find('li.destroy').hide() # hide if js
     # Using a link, similar to what is used with a new nested model fields but with a different class
-    @fieldset.find('ol.existing li.destroy').after "<li><a href='#' class='remove_existing btn btn-danger'>Remove #{@association}</a></li>"
+    @fieldset.find('ol.existing li.destroy').after "<li><a href='##{@association}s' class='remove_existing_#{@association} btn btn-danger'>Remove #{@association}</a></li>"
 
 
   clickAdd: ->
@@ -46,14 +46,15 @@ class Nester
 
 
   clickRemoveNew: ->
-    @form.find('a.remove_new').live 'click', (e) =>
+    @form.find('a.remove_new').on 'click', (e) =>
+      e.preventDefault()
       link = e.srcElement || e.target
       $(link).parent().parent().slideUp -> $(@).remove()
       @form.trigger "#{@association}:fieldsRemoved"
 
 
   clickRemoveExisting: ->
-    @form.find('a.remove_existing').on 'click', (e) =>
+    @form.find("a.remove_existing_#{@association}").on 'click', (e) =>
       e.preventDefault()
       link = e.srcElement || e.target
       ol = $(link).parent().parent()
@@ -65,7 +66,7 @@ class Nester
 
 
   clickUndo: ->
-    @form.find('a.undo').live 'click', (e) =>
+    @form.find('a.undo').on 'click', (e) =>
       e.preventDefault()
       link = e.srcElement || e.target
       ol = $(link).parent().parent()

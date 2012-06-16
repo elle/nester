@@ -64,9 +64,10 @@ li with :class => .destroy class for existing records with a _destroy checkbox
 
 == TODO
 
-- Fix doubling of undo link when multiple nested models (click on 'Remove attachment' in /examples/html/index.html)
 - Simplify markup and loosen reliance on specific markup
 - Add an option to set class names when invoking the plugin
+- Using templates to clean html markup from logic and easier to customise the html markup
+- Pluralize better
 
 
 
