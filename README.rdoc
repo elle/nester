@@ -19,7 +19,7 @@ You can check out http://elle.github.com/nester/ (also lives at /examples/html/i
 
 Add this line to your application's Gemfile:
 
-    gem 'nester'
+    gem 'nester', :git => 'https://github.com/elle/nester.git'
 
 And then execute:
 
