@@ -17,46 +17,62 @@ You can check out http://elle.github.com/nester/ (also lives at /examples/html/i
 
 == Setup
 
-Add this line to your application's Gemfile:
-
-    gem 'nester', :git => 'https://github.com/elle/nester.git'
-
-And then execute:
-
-    $ bundle
-
-And then add it to the Asset Pipeline in the application.js file:
-
-  //= require jquery.nester
-
+[1. Add this line to your application's Gemfile:] gem 'nester', :git => 'https://github.com/elle/nester.git'
+[2. Re-bundle] $ bundle
+[3. Add the nester plugin to the Asset Pipeline in the your application.js file:] //= require jquery.nester
 
 
 == Usage
 
-1. Basic Markup:
+=== First, structure your markup similarly to this example:
 
-Look at examples for suggested markup in both html and haml
+==== Note: Nester.js expects you to follow these markup requirements:
+[A fieldset with an id matching the association in plural form (i.e. #attachments, #answers)] %fieldset\#attachments
 
-=== Things to pay attention to:
+[Each record's fields must be within an ol with class a class matching the association in singular form (i.e. .attachment, .answer)]  %ol.attachment.existing
 
-fieldset with id of association in plural (i.e. #attachments, #answers)
+[There must also be an ol with a class of 'blueprints', which Nester.js uses to construct the form fields for new nested models]  %ol.attachment.blueprints
 
+[Existing nested model records must live in an li with a class of 'destroy' for existing records with a _destroy checkbox]  %li.destroy
+
+
+==== _form.haml (example)
+  - # Using simple_form in this case but it is not a must
+  = simple_form_for @letter, :html => { :multipart => true } do |f|
+    %fieldset
+      %ol
+        = f.input :text, :label => 'Letter Body'
+
+    = render 'attachment_fields', :f => f
+
+    %fieldset
+      %ol
+        = f.button :submit
+
+
+==== _attachment_fields.haml (example)
   %fieldset#attachments
+    %legend Relevant images or documents for the letter
+    %ol
+      %li
+        = f.simple_fields_for :attachments do |attachment|
+          - if attachment.object.persisted?
+            %ol.attachment.existing
+              %li
+                = attachment_tag(attachment.object) if attachment.object.file?
+                = attachment.input :id, :as => :hidden
+              %li.input.boolean.destroy
+                = attachment.check_box :_destroy
+                = attachment.label :_destroy, 'Remove attachment'
+          - else
+            %ol.attachment.blueprints
+              = attachment.input :file, :as => :file
+              = attachment.input :title, :label => 'Name of attachment (optional)'
 
-each record's fields are within an ol with :class => .association (i.e. .attachment, .answer)
-
-  %ol.attachment.existing
-
-one of these ol's has a :class => .blueprints, which is used to duplicate the required form fields
-
-  %ol.attachment.blueprints
-
-li with :class => .destroy class for existing records with a _destroy checkbox
-
-  %li.destroy
 
 
-2. Initialise the class with the form object and the association as a singular string
+
+=== Then, initialise the nester.js plugin on your form element, passing the association as a singular string
 
   $('form').nester({association: 'attachment'})
 
